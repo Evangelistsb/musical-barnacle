@@ -2,6 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import filesystem
+import sysadmin
+import utils
 
 
 def main():
@@ -16,6 +19,9 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+def tracker():
+    if utils[0].length > 0:
+        
 
 if __name__ == '__main__':
     main()
