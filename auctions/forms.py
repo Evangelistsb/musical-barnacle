@@ -2,11 +2,10 @@ from django import forms
 from auctions.models import AuctionListening, Category, Bid, Comment
 
 
-class NewAuctionForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = AuctionListening
-        fields = ['title', 'description', 'category', 'image_url', 'starting_bid']
-
+        model = Comment
+        fields = ['body']
 
 class BidForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -25,8 +24,9 @@ class BidForm(forms.ModelForm):
         fields = ['amount']
 
 
-class CommentForm(forms.ModelForm):
+class NewAuctionForm(forms.ModelForm):
     class Meta:
-        model = Comment
-        fields = ['body']
+        model = AuctionListening
+        fields = ['title', 'description', 'category', 'image_url', 'starting_bid']
+
 
