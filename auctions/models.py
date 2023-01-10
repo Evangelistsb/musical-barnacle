@@ -7,25 +7,6 @@ from django.utils.text import slugify
 class User(AbstractUser):
     pass
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-    slug = models.SlugField(null=False, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super(Category, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "categories"
-
-    def get_absolute_url(self):
-        return reverse('category_listings', kwargs={'slug': self.slug})
-
-
 class AuctionListening(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
@@ -48,6 +29,23 @@ class AuctionListening(models.Model):
     def get_absolute_url(self):
         return reverse('auction_view', kwargs={"pk": self.pk})
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+    slug = models.SlugField(null=False, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "categories"
+
+    def get_absolute_url(self):
+        return reverse('category_listings', kwargs={'slug': self.slug})
 
 
 class Bid(models.Model):
