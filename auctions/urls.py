@@ -13,5 +13,9 @@ urlpatterns = [
     path("auction/<int:pk>/end", views.end_auction, name="end_auction"),
     path("bookmarks", views.bookmarks, name="bookmarks"),
     path("categories", views.CategoriesView.as_view(), name="categories"),
-    path("categories/<slug:slug>", views.CategoryListings.as_view(), name="category_listings")
+    path("categories/<slug:slug>", views.CategoryListings.as_view(), name="category_listings"),
+    path("prev_auctions", views.new_auction, name="new_auction"),
+    path("i_rest/<int:pk>/", views.auction_view, name='auction_view'),
+    path("j_rest/<int:pk>/favourite", views.favourite_post, name='favourite_post'),
+    path("u_rest/<int:pk>/end", views.end_auction, name="end_auction"),
 ]
