@@ -50,6 +50,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.user} comment on {self.auction}"
 
+# Model to store the category of items in the database
 class Category(models.Model):
     name = models.CharField(max_length=20)
     slug = models.SlugField(null=False, unique=True)
