@@ -29,25 +29,6 @@ class AuctionListening(models.Model):
     def get_absolute_url(self):
         return reverse('auction_view', kwargs={"pk": self.pk})
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=20)
-    slug = models.SlugField(null=False, unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super(Category, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "categories"
-
-    def get_absolute_url(self):
-        return reverse('category_listings', kwargs={'slug': self.slug})
-
-
 class Bid(models.Model):
     auction = models.ForeignKey(AuctionListening, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -68,3 +49,21 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.user} comment on {self.auction}"
+
+class Category(models.Model):
+    name = models.CharField(max_length=20)
+    slug = models.SlugField(null=False, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "categories"
+
+    def get_absolute_url(self):
+        return reverse('category_listings', kwargs={'slug': self.slug})
+
