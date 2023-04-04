@@ -27,26 +27,6 @@ class IndexListView(ListView):
         return context
 
 
-def login_view(request):
-    if request.method == "POST":
-
-        # Attempt to sign user in
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-
-        # Check if authentication successful
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse("index"))
-        else:
-            return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
-            })
-    else:
-        return render(request, "auctions/login.html")
-
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
@@ -78,22 +58,25 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
-@login_required
-def new_auction(request):
+def login_view(request):
     if request.method == "POST":
-        form = NewAuctionForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = request.user
-            obj.save()
-            return HttpResponseRedirect(reverse("index"))
-    else:
-        form = NewAuctionForm()
 
-    return render(request, "auctions/new_auction.html", {
-        "form": form
-    })
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "auctions/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "auctions/login.html")
+    
 
 
 def auction_view(request, pk):
@@ -142,6 +125,22 @@ def auction_view(request, pk):
         "top_bid": top_bid,
         "comment_form": comment_form,
         "comments": auction.comments.all()
+    })
+
+@login_required
+def new_auction(request):
+    if request.method == "POST":
+        form = NewAuctionForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        form = NewAuctionForm()
+
+    return render(request, "auctions/new_auction.html", {
+        "form": form
     })
 
 
